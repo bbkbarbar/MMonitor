@@ -8,7 +8,7 @@ public class App {
 	
 	public static void main(String[] args) {
 		try {
-			Response resp = RequestHelper.sendGet("barbarhome.ddns.net:3333");
+			Response resp = RequestHelper.sendGet("http://barbarhome.ddns.net:3333");
 			
 			System.out.println(resp.getResponseBody().toString());
 		} catch (Exception e) {
