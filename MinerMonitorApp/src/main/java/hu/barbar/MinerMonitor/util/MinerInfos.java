@@ -1,14 +1,10 @@
 package hu.barbar.MinerMonitor.util;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MinerInfos {
 	
 	public static final int VALUE_UNDEFINED = -1;
-	
-	private static final String PATTERN_MINER_VERSION = "";
 	
 	
 	private String minerVersion = null;

@@ -1,5 +1,7 @@
 {
 	"miner host with port_":"http://barbarhome.ddns.net:3333",
 	"miner host with port":"http://localhost/index2.html",
-	"log folder": "..\\web\\logs"
+	"log folder": "..\\web\\logs",
+	"web console checking frequency in sec" : 10
+	
 }
