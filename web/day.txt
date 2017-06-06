@@ -1,0 +1,119 @@
+ Yesterday tasks:
+ 	Yesterday forenoon We try to investigate the increased response time's problem on landingApp with Barna
+ 	And afternoon I've done PERF2 deployment and I tried to fix deployment errors
+
+
+ Plan for today tasks:
+  - Continue investigation on pref2 deployment error on TFN service
+  As Nitin wrote it seems there is a device mapper issue
+  Currently I'm waiting for Mark's answer:
+  	He said He will have a look
+
+
+
+   
+  ?? start migrating test test from HPPC to Jmeter
+
+ Daily tasks:
+  - investigate TFN service perf2 deployment error
+
+
+LOOK AFTER: 
+
+Resolution
+
+ - expose -olás linuxon???
+ - jsoncole, heapdump
+ - GC log-nál a Troughput -milyen érték alatt "nem jó"
+
+ - How can I SSH to boxes if it's running as dockerContainers??
+ 
+ - Try out java jstat
+
+BM futtatásnál testpal-t használni, az Analyze funkcióval!!!!
+
+??? Jira analysis:
+
+
+
+Perf 2 deployment:
+	ssh phhlapphot007
+	cd /hcom/scripts/deploy/scripts
+	./deploy-all-mainlatest-perf2-parallel true | tee R03_perf2_20170208
+
+Config check after deployment:
+	cd /var/tmp/<unique deployment identifier>
+	grep '\- MODIFIED' log.out | grep 'env'
+
+	grep -v "NOT MODIFIED" *prop-diffs*.out | grep -v "\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-" | uniq
+
+
+PERF2 deploy ERRORS:
+
+  WARNING: deploy-GeographySvcOnline exited with non-zero exit status.
+  WARNING: deploy-TFNService exited with non-zero exit status.
+  WARNING: deploy-DossierSvc exited with non-zero exit status.
+  WARNING: deploy-LandingApp exited with non-zero exit status.
+
+
+*** Finished - deploy log file and collated diff outputs are in /var/tmp/561b2c24-07d6-4f37-8ca3-84cfaf342a46 ***
+
+
+
+##################################################################################
+  WARNING: deploy-GeographySvcOnline   - Fixed by Nitin
+  	
+  	"just ran this "
+	"docker-compose -f docker-compose.yml up --allow-insecure-ssl"
+	"from "
+	"/hcom/servers/perf2-gson-01/perf2"
+	"then checked it, was running then terminated and started it the normal way"
+
+##################################################################################
+  WARNING: deploy-TFNService
+  	cd /hcom/scripts/deploy/individual/
+  	./deploy-TFNService -e perf2 -r
+
+	> Starting deployment process.
+	> Starting deploy of 'perf2-tfn-01' on 'phhlapphot029'.
+	> Stopping perf2-tfn-01
+	> Running remotely: test -x /etc/init.d/perf2-tfn-01 || {
+	         echo 'SysV Init script missing!'; false; }
+
+	ERROR: Command failed on 'phhlapphot029'. Command was:
+
+	  test -x /etc/init.d/perf2-tfn-01 || {
+	         echo 'SysV Init script missing!'; false; }
+
+	OUTPUT WAS:
+	  SysV Init script missing!
+
+
+	Cannot continue. Aborting.
+
+	[hcom@phhlapphot029 individual]$
+
+
+
+	On target box:
+	/hcom/work/aboor/scripts/dockery.sh
+
+	Copy perf1 startupconfigot rámásolod a perf2-ére (amúgy üres lenne) (ha a perf2 hiányzott)
+	Beégetett hivatkozások ellenőrzése (perf1, stb)
+
+	docker pull registry.docker.hcom/hotels/tfn:20.1.99
+
+	/////////////////
+
+	docker ps -a
+
+	Start docker instance from /hcom/servers/perfX-???-01/ -alatt:
+	docker-compose -f docker-compose.yml start
+
+
+	docker restart:
+	sudo /etc/init.d/docker restart
+
+
+
+
