@@ -26,5 +26,10 @@
     	<artifactId>http-helper</artifactId>
     	<version>1.0.0</version>
     </dependency>
+    <dependency>
+    	<groupId>hu.barbar.util</groupId>
+    	<artifactId>filehandler</artifactId>
+    	<version>1.0.0</version>
+    </dependency>
   </dependencies>
 </project>
