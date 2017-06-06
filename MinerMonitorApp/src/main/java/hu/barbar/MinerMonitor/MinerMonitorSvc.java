@@ -57,13 +57,25 @@ public class MinerMonitorSvc {
 		System.out.println("Try to open host: |" + host + "|");
 		ArrayList<String> respLines = getMinerConsole(host);
 		
+		ArrayList<String> linesWhatCointainsTotalHashRate = new ArrayList<String>();
+		
 		for(int i=0; i<respLines.size(); i++){
 			if(respLines.get(i).contains("{\"result\": [\"")){
 				System.out.println("\n\n" + respLines.get(i) + "\n\n");
 				mi = new MinerInfos(respLines.get(i));
-				System.out.println(mi.toString());
+			}
+			
+			if(respLines.get(i).contains("Total Speed: ")){
+				linesWhatCointainsTotalHashRate.add(respLines.get(i));
 			}
 		}
+		
+		if(linesWhatCointainsTotalHashRate.size()>0){
+			String lastLine = linesWhatCointainsTotalHashRate.get(linesWhatCointainsTotalHashRate.size()-1);
+			mi.setTotalHashRateFromLastLine(lastLine);
+		}
+		
+		System.out.println(mi.toString());
 	}
 	
 }

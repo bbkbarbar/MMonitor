@@ -19,6 +19,8 @@ public class MinerInfos {
 	
 	private ArrayList<GPUInfo> gpuInfos = null;
 	
+	private String totalHashRate = null;
+	
 	
 	/**
 	 * Create instance from web-console line.
@@ -84,6 +86,21 @@ public class MinerInfos {
 		return coinName;
 	}
 
+	public void setTotalHashRate(String totalHashRate){
+		this.totalHashRate = totalHashRate;
+	}
+
+	public void setTotalHashRateFromLastLine(String lastLine){
+		String[] parts = lastLine.split(" ");
+		if(parts.length>= 6){
+			this.setTotalHashRate(parts[5] + " " + parts[6]);
+		}
+	}
+	
+	public String getTotalHashRate(){
+		return this.totalHashRate;
+	}
+	
 	public ArrayList<GPUInfo> getGpuInfos() {
 		return gpuInfos;
 	}
@@ -118,6 +135,9 @@ public class MinerInfos {
 	}
 	
 	public String toString(){
-		return "Uptime: " + this.getUptimeHumanReadble() + " Coin: " + this.coinName + " Ver: " + this.minerVersion + " Gpu infos: " + getGPUInfoLine();
+		return 
+				"Uptime: " + this.getUptimeHumanReadble() 
+				+ (totalHashRate == null?"":" Total speed: " + this.totalHashRate)
+				+ " Coin: " + this.coinName + " Ver: " + this.minerVersion + " Gpu infos: " + getGPUInfoLine();
 	}
 }
