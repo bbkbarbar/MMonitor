@@ -39,8 +39,8 @@ public class MinerInfos {
 		}
 		
 		// Uptime in minutes
-		if(arr.length>=10){
-			String s = arr[10];
+		if(arr.length>=8){
+			String s = arr[8];
 			String[] a = s.split("\"");
 			if(a.length>=1){
 				this.uptimeMinutes = Integer.valueOf(a[1]);
