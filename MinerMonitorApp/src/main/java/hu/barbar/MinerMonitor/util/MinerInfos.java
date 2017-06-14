@@ -6,6 +6,11 @@ public class MinerInfos {
 	
 	public static final int VALUE_UNDEFINED = -1;
 	
+	private static final int IDX_OF_MINER_VERSION = 4;
+	private static final int IDX_OF_COIN_NAME = 6;
+	private static final int IDX_OF_UPTIME_IN_MINUTES = 7;
+	private static final int IDX_OF_GPU_INFOS = 12;
+	
 	
 	private String minerVersion = null;
 	
@@ -21,26 +26,34 @@ public class MinerInfos {
 	/**
 	 * Create instance from web-console line.
 	 * <br>Input example:
-	 * <_html><_head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></_head><body bgcolor="#808080" style="font-family: monospace;">{"result": ["9.3 - ETH", "1125", "73558;1200;0", "21309;26030;26218", "0;0;0", "off;off;off", "66;54;67;77;66;49", "eu2.ethermine.org:14444", "0;0;0;0"]}
+	 * <html><body bgcolor="#000000" style="font-family: monospace;">{"result": ["9.5 - ETH", "1528", "76925;1715;0", "24676;26131;26117", "0;0;0", "off;off;off", "67;47;68;64;67;42", "eu2.ethermine.org:14444", "0;0;0;0"]}
 	 * @param line
 	 */
 	public MinerInfos(String line){
 		
 		String[] arr = line.split(" ");
 		
+		// For debug only
+		/*
+		for(int i=0; i<arr.length; i++){
+			System.out.println(i + ": |" + arr[i] + "|");
+		}
+		/**/
+		
 		// Miner version
-		if(arr.length>=7){
-			this.minerVersion = arr[7].substring(2);
+		if(arr.length>=IDX_OF_MINER_VERSION){
+			this.minerVersion = arr[IDX_OF_MINER_VERSION].substring(2);
 		}
 		
 		// Coin name
-		if(arr.length>=9){
-			this.coinName = arr[9].substring(0, arr[9].indexOf('"'));
+		if(arr.length>=IDX_OF_COIN_NAME){
+			this.coinName = arr[IDX_OF_COIN_NAME].substring(0, arr[IDX_OF_COIN_NAME].indexOf('"'));
 		}
 		
+		
 		// Uptime in minutes
-		if(arr.length>=8){
-			String s = arr[8];
+		if(arr.length>=IDX_OF_UPTIME_IN_MINUTES){
+			String s = arr[IDX_OF_UPTIME_IN_MINUTES];
 			String[] a = s.split("\"");
 			if(a.length>=1){
 				this.uptimeMinutes = Integer.valueOf(a[1]);
@@ -48,8 +61,8 @@ public class MinerInfos {
 		}
 		
 		// GPU infos (temperature, cooler state)
-		if(arr.length>=15){
-			String s = arr[15].substring(1);
+		if(arr.length>=IDX_OF_GPU_INFOS){
+			String s = arr[IDX_OF_GPU_INFOS].substring(1);
 			String gpuInfoLine = s.substring(0, s.indexOf('\"'));
 			String gpuInfoParts[] = gpuInfoLine.split(";");
 			
@@ -63,7 +76,7 @@ public class MinerInfos {
 			
 		}
 		
-		
+		/**/
 	}
 	
 	

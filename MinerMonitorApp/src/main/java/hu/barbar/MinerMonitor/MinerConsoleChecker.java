@@ -46,7 +46,7 @@ public class MinerConsoleChecker {
 		
 		for(int i=0; i<respLines.size(); i++){
 			if(respLines.get(i).contains("{\"result\": [\"")){
-				System.out.println("\n\n" + respLines.get(i) + "\n\n");
+				//System.out.println("\n\n" + respLines.get(i) + "\n\n");
 				mi = new MinerInfos(respLines.get(i));
 			}
 			
@@ -60,7 +60,7 @@ public class MinerConsoleChecker {
 			mi.setTotalHashRateFromLastLine(lastLine);
 		}
 		
-		System.out.println("Last infos:\n" + mi.toString());
+		//System.out.println("Last infos:\n" + mi.toString());
 		
 		return mi;
 	}
