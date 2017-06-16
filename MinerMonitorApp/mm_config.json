@@ -3,5 +3,4 @@
 	"miner host with port_":"http://localhost/index2.html",
 	"log folder": "..\\web\\logs",
 	"web console checking frequency in sec" : 10
-
 }
