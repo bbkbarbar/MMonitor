@@ -1,6 +1,7 @@
 package hu.barbar.MinerMonitor.util;
 
 import hu.barbar.MinerMonitor.MinerConsoleChecker;
+import hu.barbar.MinerMonitor.MinerDataLogger;
 
 public class WebConsoleChecker extends Thread {
 
@@ -12,6 +13,7 @@ public class WebConsoleChecker extends Thread {
 	
 	private boolean needToRun = false;
 	
+	private MinerDataLogger mdl = null;
 	
 	
 	public WebConsoleChecker(MinerInfos minerInfosToUpdate, String minerConsoleHost, long delayBetweenChecksInSeconds){
@@ -19,6 +21,7 @@ public class WebConsoleChecker extends Thread {
 		this.delayBetweenChecksInSeconds = delayBetweenChecksInSeconds;
 		this.minerConsoleHost = minerConsoleHost;
 		this.minerInfos = minerInfosToUpdate;
+		mdl = new MinerDataLogger("");
 	}
 	
 	@Override
@@ -36,6 +39,7 @@ public class WebConsoleChecker extends Thread {
 		while(needToRun){
 			
 			minerInfos = MinerConsoleChecker.getInfosFromWebConsole(minerConsoleHost);
+			mdl.process(minerInfos);
 			System.out.println("Minerinfos updated: " + minerInfos);
 			
 			waitBeforeNextCheck();

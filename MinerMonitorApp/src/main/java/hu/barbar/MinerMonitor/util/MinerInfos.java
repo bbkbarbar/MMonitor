@@ -71,7 +71,10 @@ public class MinerInfos {
 				try{
 					GPUInfo gi = new GPUInfo(Integer.valueOf(gpuInfoParts[i]), Integer.valueOf(gpuInfoParts[i+1]));
 					gpuInfos.add(gi);
-				}catch(Exception e){}
+				}catch(Exception e){
+					System.out.println(e.toString());
+					System.err.println(e.toString());
+				}
 			}
 			
 		}
@@ -115,14 +118,13 @@ public class MinerInfos {
 	}
 
 	public GPUInfo getGPUInfo(int gpuId){
-		ArrayList<GPUInfo> infos = this.getGpuInfos();
-		if(infos == null){
+		if(gpuInfos == null){
 			return null;
 		}
-		if(infos.size() > gpuId){
+		if(this.getGpuInfos().size() <= gpuId){
 			return null;
 		}
-		return infos.get(gpuId);
+		return this.getGpuInfos().get(gpuId);
 	}
 	
 	public String getUptimeHumanReadble(){
