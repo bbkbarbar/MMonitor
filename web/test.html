@@ -87,9 +87,28 @@
             document.getElementById("graphdiv"),
 
             // CSV or path to a CSV file.
-            "Date,Air,Water\n" +
-            "2016-07-17 08:33, 24.94, 29.81\n" +
-            "2016-07-17 08:37, 24.94, 26.13\n"
+            "Date,Temperature,Fan\n" +
+            "2017-06-16 16:02, 68, 68\n" +
+            "2017-06-17 06:05, 65, 57\n"
+          );
+        </script>
+        </div>
+
+        <div class="graph">
+        <div id="graphdiv"></div>
+        <script 
+            type="text/javascript"
+        >
+          g2 = new Dygraph(
+
+            // containing div
+            document.getElementById("graphdiv"),
+
+            // CSV or path to a CSV file.
+            "Date,Temperature,Fan\n" +
+            "2017-06-16 16:02, 64, 64\n" +
+            "2017-06-16 18:02, 62, 67\n" +
+            "2017-06-17 06:05, 65, 57\n"
           );
         </script>
         </div>

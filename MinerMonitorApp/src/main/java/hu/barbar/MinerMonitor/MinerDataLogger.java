@@ -12,7 +12,7 @@ public class MinerDataLogger {
 	
 	private static final String GPU_LOG_FILENAME_BASE = "gpu_";
 	
-	private static final String LOG_DATE_FORMAT = "yyyy-MM-dd HH:mm";
+	private static final String LOG_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	
 	
 	private SimpleDateFormat sdf = null;
@@ -36,7 +36,16 @@ public class MinerDataLogger {
 			return;
 		}
 		
+		String completeLine = sdf.format(new Date());
+		completeLine += "," + mi.getTotalHashRate().split(" ")[0];
+		for(int i=0; i<mi.getGPUCount(); i++){
+			completeLine += "," + mi.getGPUInfo(i).getTemperature();
+			completeLine += "," + mi.getGPUInfo(i).getFanPct();
+		}
+		completeLine += "";
+		FileHandler.appendToFile("/var/www/html/ul/gpuinfos.csv", completeLine);
 		
+		// Save separated logs per GPU-s
 		for(int i=0; i<mi.getGPUCount(); i++){
 			
 			String line = "\"" + sdf.format(new Date()) + ", ";
