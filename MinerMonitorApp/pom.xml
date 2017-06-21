@@ -31,5 +31,12 @@
     	<artifactId>filehandler</artifactId>
     	<version>1.0.0</version>
     </dependency>
+    
+    <dependency>
+    	<groupId>hu.barbar.comm</groupId>
+  		<artifactId>ftphelper</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+    
   </dependencies>
 </project>

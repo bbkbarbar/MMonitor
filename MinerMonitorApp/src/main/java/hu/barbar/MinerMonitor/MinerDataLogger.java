@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import hu.barbar.MinerMonitor.util.MinerInfos;
+import hu.barbar.comm.ftphelper.FTPHelper;
 import hu.barbar.util.FileHandler;
 
 public class MinerDataLogger {
@@ -43,7 +44,14 @@ public class MinerDataLogger {
 			completeLine += "," + mi.getGPUInfo(i).getFanPct();
 		}
 		completeLine += "";
-		FileHandler.appendToFile("/var/www/html/ul/gpuinfos.csv", completeLine);
+		
+		//TODO get LogFile from config JSON
+		String logFile = "/var/www/html/ul/gpuinfos.csv";
+		FileHandler.appendToFile(logFile, completeLine);
+		
+		if( FTPHelper.upload("ftp.atw.hu", "barbarminer", "Astra16i", "/var/www/html/ul/", "gpuinfos.csv") ){
+			System.out.println("\nFTP upload failed..\n");
+		}
 		
 		// Save separated logs per GPU-s
 		for(int i=0; i<mi.getGPUCount(); i++){
