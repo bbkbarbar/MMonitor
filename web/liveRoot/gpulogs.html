@@ -1,0 +1,210 @@
+<!-- Styles -->
+<style>
+ width: 100%;
+    width   : 50%;
+    height  : 500px;
+}                                                   
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+<!-- Chart code -->
+<script>
+var chartData = generateChartData();
+
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": chartData,
+    "synchronizeGrid":true,
+    "valueAxes": [{
+        "id":"v1",
+        "axisColor": "#4286f4",
+        "axisThickness": 2,
+        "axisAlpha": 1,
+        "position": "left"
+    }, {
+        "id":"v2",
+        "axisColor": "#FCD202",
+        "axisThickness": 2,
+        "axisAlpha": 1,
+        "offset": 50,
+        "position": "left"
+    }, {
+        "id":"v3",
+        "axisColor": "#202020",
+        "axisThickness": 2,
+        "gridAlpha": 0,
+        "offset": 50,
+        "axisAlpha": 1,
+        "position": "right"
+    }],
+    "graphs": [{
+        "valueAxis": "v3",
+        "lineColor": "#202020",
+        "bullet": "square",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "HashRate",
+        "valueField": "totalhashrate",
+        "fillAlphas": 0
+    }, {
+        "valueAxis": "v1",
+        "lineColor": "#4286f4",
+        "bullet": "square",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "Temp GPU 1",
+        "valueField": "visits",
+        "fillAlphas": 0
+    }, {
+        "valueAxis": "v1",
+        "lineColor": "#2273f7",
+        "bullet": "triangleUp",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "Temp GPU 2",
+        "valueField": "gpu2temp",
+        "fillAlphas": 0
+    }, {
+        "valueAxis": "v1",
+        "lineColor": "#4797d1",
+        "bullet": "square",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "Temp GPU 3",
+        "valueField": "gpu3temp",
+        "fillAlphas": 0 
+    }, {
+        "valueAxis": "v2",
+        "lineColor": "#FCD202",
+        "bullet": "round",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "Fan GPU 1",
+        "valueField": "hits",
+        "fillAlphas": 0
+    }, {
+        "valueAxis": "v2",
+        "lineColor": "#0000FF",
+        "bullet": "round",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "Fan GPU 2",
+        "valueField": "gpu2fan",
+        "fillAlphas": 0
+    }, {
+        "valueAxis": "v2",
+        "lineColor": "#00FFFF",
+        "bullet": "round",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "Fan GPU 3",
+        "valueField": "gpu3fan",
+        "fillAlphas": 0 
+    }],
+    "chartScrollbar": {},
+    "chartCursor": {
+        "cursorPosition": "mouse"
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": false,
+        "minPeriod": "mm",
+        "autoGridCount": true,
+        "axisColor": "#DADADA",
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true,
+        "position": "bottom-right"
+     }
+});
+
+chart.addListener("dataUpdated", zoomChart);
+zoomChart();
+
+
+function loadCSV(file) {
+    var request;
+    if (window.XMLHttpRequest) {
+        // IE7+, Firefox, Chrome, Opera, Safari
+        request = new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        request = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    // load
+    request.open('GET', file, false);
+    request.send();
+    //generateChartData(request.responseText);
+    return request.responseText;
+}
+
+
+// generate some random data, quite different range
+function generateChartData(data) {
+    var chartData = [];
+    //var firstDate = new Date();
+    //firstDate.setDate(firstDate.getDate() - 100);
+
+    data = loadCSV("gpuinfos.csv");
+
+    var rows = data.split("\n");
+    console.log("Row count: " + rows.length);
+
+    // loop through all rows
+    for (var i = 0; i < rows.length; i++) {
+        // this line helps to skip empty rows
+        if (rows[i]) {
+            // our columns are separated by comma
+            var column = rows[i].split(",");
+
+            // column is array now
+            // first item is date
+            var date = new Date(Date.parse(column[0]));
+            // second item is value of the second column
+            var hashrate = column[1];
+            var gpu1_temp = column[2];
+            var gpu1_fan =  column[3];
+            var gpu2_temp = column[4];
+            var gpu2_fan =  column[5];
+            var gpu3_temp = column[6];
+            var gpu3_fan =  column[7];
+
+            // create object which contains all these items:
+            var dataObject = {
+                date: date,
+                totalhashrate: hashrate,
+                visits: gpu1_temp,
+                hits: gpu1_fan,
+                gpu2temp: gpu2_temp,
+                gpu2fan: gpu2_fan,
+                gpu3temp: gpu3_temp,
+                gpu3fan: gpu3_fan
+            };
+            // add object to chartData array
+            chartData.push(dataObject);
+        }
+    }
+    //chart.validateData();
+
+    return chartData;
+}
+
+function zoomChart(){
+    chart.zoomToIndexes(chart.dataProvider.length - 20, chart.dataProvider.length - 1);
+}
+
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
