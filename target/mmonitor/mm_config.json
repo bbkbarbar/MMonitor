@@ -1,0 +1,6 @@
+{
+	"miner host with port":"http://barbarhome.ddns.net:3333",
+	"log folder": "/var/www/html/ul/",
+	"log file": "gpuinfos.csv",
+	"web console checking frequency in sec" : 120
+}
