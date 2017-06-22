@@ -21,7 +21,7 @@ public class WebConsoleChecker extends Thread {
 		this.delayBetweenChecksInSeconds = delayBetweenChecksInSeconds;
 		this.minerConsoleHost = minerConsoleHost;
 		this.minerInfos = minerInfosToUpdate;
-		mdl = new MinerDataLogger("");
+		mdl = new MinerDataLogger("/var/www/html/ul/", "gpuinfos.csv");
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class WebConsoleChecker extends Thread {
 			
 			minerInfos = MinerConsoleChecker.getInfosFromWebConsole(minerConsoleHost);
 			mdl.process(minerInfos);
-			System.out.println("Minerinfos updated: " + minerInfos);
+			//System.out.println("Minerinfos updated: " + minerInfos);
 			
 			waitBeforeNextCheck();
 		}

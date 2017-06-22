@@ -19,15 +19,17 @@ public class MinerDataLogger {
 	private SimpleDateFormat sdf = null;
 	
 	private String logPath = null;
+	private String logFile = null;
 
 	
 	/**
 	 * 
 	 * @param logPath without path separator at the end.
 	 */
-	public MinerDataLogger(String logPath) {
+	public MinerDataLogger(String logPath, String logfile) {
 		super();
 		this.logPath = logPath;
+		this.logFile = logfile;
 		sdf = new SimpleDateFormat(LOG_DATE_FORMAT);
 	}
 	
@@ -46,12 +48,15 @@ public class MinerDataLogger {
 		completeLine += "";
 		
 		//TODO get LogFile from config JSON
-		String logFile = "/var/www/html/ul/gpuinfos.csv";
-		FileHandler.appendToFile(logFile, completeLine);
+		//String logFile = "/var/www/html/ul/gpuinfos.csv";
+		FileHandler.appendToFile(this.logPath + FileHandler.getPathSeparator() + this.logFile, completeLine);
 		
-		if( FTPHelper.upload("ftp.atw.hu", "barbarminer", "Astra16i", "/var/www/html/ul/", "gpuinfos.csv") ){
+		// FTP uploading fails because ???, so currently use external script for uploading logs to ftp.
+		/*
+		if( FTPHelper.upload("ftp.atw.hu", "barbarminer", "A_i", "/var/www/html/ul/", "gpuinfos.csv") ){
 			System.out.println("\nFTP upload failed..\n");
 		}
+		/**/
 		
 		// Save separated logs per GPU-s
 		for(int i=0; i<mi.getGPUCount(); i++){
