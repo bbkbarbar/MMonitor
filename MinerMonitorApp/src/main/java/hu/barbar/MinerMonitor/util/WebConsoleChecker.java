@@ -3,7 +3,7 @@ package hu.barbar.MinerMonitor.util;
 import hu.barbar.MinerMonitor.MinerConsoleChecker;
 import hu.barbar.MinerMonitor.MinerDataLogger;
 
-public class WebConsoleChecker extends Thread {
+public abstract class WebConsoleChecker extends Thread {
 
 	private long delayBetweenChecksInSeconds = -1;
 	
@@ -13,15 +13,12 @@ public class WebConsoleChecker extends Thread {
 	
 	private boolean needToRun = false;
 	
-	private MinerDataLogger mdl = null;
-	
 	
 	public WebConsoleChecker(MinerInfos minerInfosToUpdate, String minerConsoleHost, long delayBetweenChecksInSeconds){
 		System.out.println("Miner console will be checked on every " + delayBetweenChecksInSeconds + " seconds..");
 		this.delayBetweenChecksInSeconds = delayBetweenChecksInSeconds;
 		this.minerConsoleHost = minerConsoleHost;
 		this.minerInfos = minerInfosToUpdate;
-		mdl = new MinerDataLogger("/var/www/html/ul/", "gpuinfos.csv");
 	}
 	
 	@Override
@@ -39,14 +36,17 @@ public class WebConsoleChecker extends Thread {
 		while(needToRun){
 			
 			minerInfos = MinerConsoleChecker.getInfosFromWebConsole(minerConsoleHost);
-			mdl.process(minerInfos);
+			onConsoleChecked(minerInfos);
 			//System.out.println("Minerinfos updated: " + minerInfos);
 			
 			waitBeforeNextCheck();
 		}
 		
 	}
+	
+	public abstract void onConsoleChecked(MinerInfos updatedMinerInfos);
 
+	
 	private void waitBeforeNextCheck(){
 		try {
 			Thread.sleep(delayBetweenChecksInSeconds * 1000);
