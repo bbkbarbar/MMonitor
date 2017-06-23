@@ -1,15 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+    <body 
+        style="
+            background-color: #1B191A;
+        "
+    >
+
 <!-- Styles -->
 <style>
- width: 100%;
+    width: 100%;
     width   : 50%;
     height  : 500px;
-}                                                   
+    background-color: #1B191A;
 </style>
 
 <!-- Resources -->
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<!-- <script src="https://www.amcharts.com/lib/3/themes/light.js"></script> -->
+<script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
@@ -19,7 +29,7 @@ var chartData = generateChartData();
 
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
-    "theme": "light",
+    "theme": "black",
     "legend": {
         "useGraphSettings": true
     },
@@ -59,7 +69,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     }, {
         "valueAxis": "v1",
         "lineColor": "#4286f4",
-        "bullet": "triangleUp",
+        "bullet": "square",
         "bulletBorderThickness": 1,
         "hideBulletsCount": 30,
         "title": "Temp GPU 1",
@@ -77,7 +87,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     }, {
         "valueAxis": "v1",
         "lineColor": "#4797d1",
-        "bullet": "triangleUp",
+        "bullet": "square",
         "bulletBorderThickness": 1,
         "hideBulletsCount": 30,
         "title": "Temp GPU 3",
@@ -89,25 +99,25 @@ var chart = AmCharts.makeChart("chartdiv", {
         "bullet": "round",
         "bulletBorderThickness": 1,
         "hideBulletsCount": 30,
-        "title": "Fan 1",
+        "title": "Fan GPU 1",
         "valueField": "hits",
         "fillAlphas": 0
     }, {
         "valueAxis": "v2",
-        "lineColor": "#E0C128",
+        "lineColor": "#0000FF",
         "bullet": "round",
         "bulletBorderThickness": 1,
         "hideBulletsCount": 30,
-        "title": "Fan 2",
+        "title": "Fan GPU 2",
         "valueField": "gpu2fan",
         "fillAlphas": 0
     }, {
         "valueAxis": "v2",
-        "lineColor": "#C9880F",
+        "lineColor": "#00FFFF",
         "bullet": "round",
         "bulletBorderThickness": 1,
         "hideBulletsCount": 30,
-        "title": "Fan 3",
+        "title": "Fan GPU 3",
         "valueField": "gpu3fan",
         "fillAlphas": 0 
     }],
@@ -208,3 +218,6 @@ function zoomChart(){
 
 <!-- HTML -->
 <div id="chartdiv"></div>
+
+</body>
+</html>
