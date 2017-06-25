@@ -118,7 +118,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     },
     "categoryField": "date",
     "categoryAxis": {
-        "parseDates": false,
+        "parseDates": true,
         "minPeriod": "mm",
         "autoGridCount": true,
         "axisColor": "#DADADA",
@@ -130,8 +130,8 @@ var chart = AmCharts.makeChart("chartdiv", {
      }
 });
 
-chart.addListener("dataUpdated", zoomChart);
-zoomChart();
+//chart.addListener("dataUpdated", zoomChart);
+//zoomChart();
 
 
 function loadCSV(file) {
